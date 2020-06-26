@@ -1,0 +1,72 @@
+package test11;
+
+import java.net.Socket;
+
+public class client {
+
+	
+		private String res;
+		private String res1;
+		private String res2;
+		private String res3;
+		private String res4;
+		 
+		 public client() {
+				super();
+				// TODO Auto-generated constructor stub
+			}
+			public client(String res, String res1, String res2, String res3, String res4) {
+				super();
+				this.res = res;
+				this.res1 = res1;
+				this.res2 = res2;
+				this.res3 = res3;
+				this.res4 = res4;
+			}
+			
+		public String getRes() {
+			return res;
+		}
+		public void setRes(String res) {
+			this.res = res;
+		}
+		public String getRes1() {
+			return res1;
+		}
+		public void setRes1(String res1) {
+			this.res1 = res1;
+		}
+		public String getRes2() {
+			return res2;
+		}
+		public void setRes2(String res2) {
+			this.res2 = res2;
+		}
+		public String getRes3() {
+			return res3;
+		}
+		public void setRes3(String res3) {
+			this.res3 = res3;
+		}
+		public String getRes4() {
+			return res4;
+		}
+		public void setRes4(String res4) {
+			this.res4 = res4;
+		}
+		@Override
+		public String toString() {
+			return "client [res=" + res + ", res1=" + res1 + ", res2=" + res2 + ", res3=" + res3 + ", res4=" + res4
+					+ "]";
+		}
+		
+		// TODO Auto-generated method stub
+		
+		//public void print_data()
+		//{
+		//	System.out.println("this is sample");
+		//	System.out.println(getRes1().toString());
+		//}
+	
+
+}
