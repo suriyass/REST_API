@@ -1,0 +1,70 @@
+package test11;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+
+public class dumb extends cpu_usage_for_one_job {
+   
+  
+            
+                
+            
+           
+            
+
+  
+
+public void data_pass(client cl) throws UnknownHostException, IOException {
+	 Thread sent;
+	    Thread receive;
+	    Socket socket;
+
+	socket = new Socket("localhost",9999);
+	sent = new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+        	
+        	
+            try {
+                BufferedReader stdIn =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                int x=0;
+                while(x!=1){
+                    System.out.println("Trying to read...");
+                        String in = stdIn.readLine();
+                        System.out.println(in);
+                        out.write(cl.getRes());
+                        out.write(cl.getRes1());
+                        out.write(cl.getRes2());
+                        out.write(cl.getRes3());
+                        out.write(cl.getRes4());
+                        out.flush();
+                        System.out.println("Message sent");
+                        x=1;
+                    }
+
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+            }
+
+
+        }
+    });
+sent.start();
+try {
+    sent.join();
+} catch (InterruptedException e) {
+    
+    e.printStackTrace();
+}
+	
+	
+}
+}
