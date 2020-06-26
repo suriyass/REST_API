@@ -1,0 +1,99 @@
+package test11;
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.apache.commons.io.FileUtils;
+import org.json.CDL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONTokener;
+
+public class total_job_runs {
+
+public static void main(String[] args) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, NoSuchProviderException, CertificateException, KeyStoreException, JSONException {
+		
+		try {
+			total_job_runs.MyGETRequest();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
+
+public static void MyGETRequest() throws IOException, NoSuchAlgorithmException, NoSuchProviderException, 
+KeyManagementException, CertificateException, KeyStoreException, UnrecoverableKeyException, JSONException {
+	
+	FileWriter file = new FileWriter("jrun.json");
+	URL url = new URL("https://iaqa97-ug-1.fyre.ibm.com:9446/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/jobruns/100000?sort=createdDate,DESC");
+	String readLine = null;
+    HttpURLConnection conection = (HttpURLConnection) url.openConnection();
+    Authenticator.setDefault(new Authenticator(){
+		@Override
+		    protected PasswordAuthentication getPasswordAuthentication(){          
+		       String login = "admin";
+			String password = "admin";
+			return new PasswordAuthentication(login, password.toCharArray());
+		    }
+		});
+    conection.setRequestMethod("GET");
+    conection.setRequestProperty("Accept", "application/json");
+    int responseCode = conection.getResponseCode();
+    System.out.println("response code:"+ responseCode);
+    System.out.println("response equal value:"+HttpURLConnection.HTTP_OK);
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(conection.getInputStream()));
+        System.out.println("connection input stream:" +in);
+        StringBuffer response = new StringBuffer();
+        while ((readLine = in .readLine()) != null) {
+            response.append(readLine);
+        } in .close();
+        String res=response.toString();
+        ArrayList<String> elephantList = new ArrayList<>(Arrays.asList(res));
+
+        for(String y11 :elephantList)
+        {
+        	 System.out.println(y11.toString());	
+        }
+        file.write(elephantList.toString());
+        file.flush();
+
+    } 
+    
+    
+    
+    else {
+        System.out.println("GET NOT WORKED");
+    }
+    
+    
+
+}
+
+
+	
+}
+
+	
+
+
