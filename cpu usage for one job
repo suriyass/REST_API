@@ -1,0 +1,195 @@
+package test11;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.json.JSONException;
+
+public class cpu_usage_for_one_job {
+
+	public static void main(String[] args) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, NoSuchProviderException, CertificateException, KeyStoreException, JSONException, IOException {
+		// TODO Auto-generated method stub
+		client cl=new client();
+		in i=new in();
+		dumb db=new dumb();
+		String res, res1,res2,res3,res4 ;
+		URL url = new URL("https://bawd1.fyre.ibm.com:9443/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/monitors/os_cpu_usage_system/2020021708120300-2020021708120500");// os_cpu_usage_system   os_cpu_usage_total os_memory_physical_free os_memory_virtual_free
+		URL url1 = new URL("https://bawd1.fyre.ibm.com:9443/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/monitors/os_cpu_usage_total/2020021708120300-2020021708120500");
+		URL url2 = new URL("https://bawd1.fyre.ibm.com:9443/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/monitors/os_memory_physical_free/2020021708120300-2020021708120500");
+		URL url3 = new URL("https://bawd1.fyre.ibm.com:9443/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/monitors/os_memory_virtual_free/2020021708120300-2020021708120500");
+		URL url4 = new URL("https://bawd1.fyre.ibm.com:9443/ibm/iis/ds/api/engines/bawd1.fyre.ibm.com/monitors/os_filesystem_free/2020021708120300-2020021708120500");
+       String readLine=null;
+		HttpURLConnection conection = (HttpURLConnection) url.openConnection();
+		HttpURLConnection conection1 = (HttpURLConnection) url1.openConnection();
+		HttpURLConnection conection2 = (HttpURLConnection) url2.openConnection();
+		HttpURLConnection conection3 = (HttpURLConnection) url3.openConnection();
+		HttpURLConnection conection4 = (HttpURLConnection) url4.openConnection();
+        Authenticator.setDefault(new Authenticator()
+        {
+        	@Override
+	    protected PasswordAuthentication getPasswordAuthentication()
+        	{          
+	       String login = "isadmin";
+	       String password = "ibm_0123";
+	       return new PasswordAuthentication(login, password.toCharArray());
+        	}
+        });
+conection.setRequestMethod("GET");
+conection.setRequestProperty("Accept", "application/json");
+conection1.setRequestMethod("GET");
+conection1.setRequestProperty("Accept", "application/json");
+conection2.setRequestMethod("GET");
+conection2.setRequestProperty("Accept", "application/json");
+conection3.setRequestMethod("GET");
+conection3.setRequestProperty("Accept", "application/json");
+conection4.setRequestMethod("GET");
+conection4.setRequestProperty("Accept", "application/json");
+int responseCode = conection.getResponseCode();
+int responseCode1 = conection.getResponseCode();
+int responseCode2 = conection.getResponseCode();
+int responseCode3 = conection.getResponseCode();
+int responseCode4 = conection.getResponseCode();
+
+System.out.println("response code:"+ responseCode);
+System.out.println("response code:"+ responseCode1);
+System.out.println("response code:"+ responseCode2);
+System.out.println("response code:"+ responseCode3);
+System.out.println("response code:"+ responseCode4);
+if ((responseCode == HttpURLConnection.HTTP_OK) && (responseCode1 == HttpURLConnection.HTTP_OK)&&(responseCode2 == HttpURLConnection.HTTP_OK)&&(responseCode3 == HttpURLConnection.HTTP_OK)&&(responseCode4 == HttpURLConnection.HTTP_OK))
+{
+	BufferedReader in = new BufferedReader(
+        new InputStreamReader(conection.getInputStream()));
+	BufferedReader in1 = new BufferedReader(
+	        new InputStreamReader(conection1.getInputStream()));
+	BufferedReader in2 = new BufferedReader(
+	        new InputStreamReader(conection2.getInputStream()));
+	BufferedReader in3 = new BufferedReader(
+	        new InputStreamReader(conection3.getInputStream()));
+	BufferedReader in4 = new BufferedReader(
+	        new InputStreamReader(conection4.getInputStream()));
+    //System.out.println("connection input stream:" +in);
+    StringBuffer response = new StringBuffer();
+    StringBuffer response1 = new StringBuffer();
+    StringBuffer response2 = new StringBuffer();
+    StringBuffer response3 = new StringBuffer();
+    StringBuffer response4 = new StringBuffer();
+    while ((readLine = in .readLine()) != null) 
+    {
+        response.append(readLine);
+    } in .close();
+    while ((readLine = in1 .readLine()) != null) 
+    {
+        response1.append(readLine);
+    } in1 .close();
+    while ((readLine = in2 .readLine()) != null) 
+    {
+        response2.append(readLine);
+    } in1 .close();
+    while ((readLine = in3 .readLine()) != null) 
+    {
+        response3.append(readLine);
+    } in1 .close();
+    while ((readLine = in4 .readLine()) != null) 
+    {
+        response4.append(readLine);
+    } in1 .close();
+
+    //System.out.println(response);
+    //System.out.println(response1);
+    //System.out.println(response2);
+    //System.out.println(response3);
+    //System.out.println(response4);
+    int x = response.lastIndexOf("timeWeightedAvg");
+    int y = response.indexOf("type");
+    int x1 = response1.lastIndexOf("timeWeightedAvg");
+    int y1 = response1.indexOf("type");
+    int x2 = response2.lastIndexOf("timeWeightedAvg");
+    int y2 = response2.indexOf("type");
+    int x3 = response3.lastIndexOf("timeWeightedAvg");
+    int y3 = response3.indexOf("type");
+   // int x4 = response4.indexOf("xMax");
+    //int y4 = response4.indexOf("xMin");
+    //System.out.println(y);
+    //System.out.println(x);
+    //System.out.println(x4);
+     res= response.substring(x+17, y-5);
+     cl.setRes(res);
+     res1= response1.substring(x1+17, y1-5);
+     cl.setRes1(res1);
+     res2= response2.substring(x2+17, y2-5);
+     cl.setRes2(res2);
+     res3= response3.substring(x3+17, y3-5);
+     cl.setRes3(res3);
+    //char g= response.charAt(315);
+     res4= response4.substring(278, 285);
+     System.out.println(res4);
+     cl.setRes4(res4);
+    //System.out.println(z);
+    //System.out.println(z1);
+    //System.out.println(z2);
+    //System.out.println(z3);
+    //System.out.println(z4);
+     
+     System.out.println(cl);
+     //i.print_data(cl);
+    db.data_pass(cl);
+     
+    } 
+else 
+{
+    System.out.println("GET NOT WORKED");
+}
+
+
+
+
+
+
+}
+
+}
+
+
+
+
+
+	
+		
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
